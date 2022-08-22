@@ -167,20 +167,15 @@ jobs:
             apk add --update ansible
             apk add tar
             apk add gzip
-            apk add openssh-client
-      - run: 
-          name: Install openssh
-          command: |
-            
 
-      
       - run:
           name: Config server
           command: |
-              cd .circleci/ansible
-              ansible-playbook -i /workspace/inventory.txt configure-server.yml
+            cd .circleci/ansible
+            ansible-playbook -i /workspace/inventory.txt configure-server.yml
               
       - destroy_environment
+
 workflows:
   default:
     jobs:
