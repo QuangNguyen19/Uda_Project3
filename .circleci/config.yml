@@ -121,17 +121,17 @@ jobs:
       - destroy_environment:
           stack_name: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
 
-      - run: 
-          name: create frontend-stack
-          command: |
-            aws cloudformation deploy \
-            --template-file .circleci/files/frontend.yml \
-            --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
-            --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-            --tags project=udapeople
+      # - run: 
+      #     name: create frontend-stack
+      #     command: |
+      #       aws cloudformation deploy \
+      #       --template-file .circleci/files/frontend.yml \
+      #       --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+      #       --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+      #       --tags project=udapeople
             
-      - destroy_environment:
-          stack_name: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+      # - destroy_environment:
+      #     stack_name: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
 
       - run:
           name: Get public IP of previous EC2 for inventory file
@@ -141,7 +141,19 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=${EC2_tagged}" "Name=instance-state-name,Values=running" \
             --output text >> ./.circleci/ansible/inventory.txt
-    
+
+      - run:
+          name: create workspace directory 
+          command: |
+            mkdir -p /workspace 
+            cp ./.circleci/ansible/inventory.txt /workspace/invetory.txt
+            cd  /workspace
+            ls -al
+            cat invetory.txt
+      # - persist_to_workspace:
+      #     root: /workspace
+      #     paths: 
+      #       - invetory.txt
 
 workflows:
   default:
