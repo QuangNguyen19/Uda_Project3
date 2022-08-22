@@ -152,7 +152,7 @@ jobs:
       - persist_to_workspace:
           root: /workspace
           paths: 
-            - invetory.txt
+            - inventory.txt
 
   configure-infrastructure:
     docker:
