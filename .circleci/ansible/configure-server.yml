@@ -19,7 +19,7 @@
         
     - name: "install python for Ansible."
       apt:
-        name: python3.7
+        name: python:3.9.13
         state: present
         update_cache: yes
 
