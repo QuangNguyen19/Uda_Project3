@@ -165,17 +165,16 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add tar
-            apk add gzip
-
+            apk add --update tar
+            apk add --update gzip
+      
       - run:
           name: Config server
           command: |
-            cd .circleci/ansible
-            ansible-playbook -i /workspace/inventory.txt configure-server.yml
+              cd .circleci/ansible
+              ansible-playbook -i /workspace/inventory.txt configure-server.yml
               
       - destroy_environment
-
 workflows:
   default:
     jobs:
