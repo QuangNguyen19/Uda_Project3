@@ -165,8 +165,14 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add --update tar
-            apk add --update gzip
+            apk add tar
+            apk add gzip
+            apk add openssh-client
+      - run: 
+          name: Install openssh
+          command: |
+            
+
       
       - run:
           name: Config server
