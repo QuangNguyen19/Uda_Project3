@@ -1,15 +1,13 @@
 version: 2.1
 commands:
   destroy_environment:
-    parameters:
-      stack_name:
-        type: string
     steps:
       - run:
           name: Destroy environment
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name <<parameters.stack_name>>
+            aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
 jobs:
   build-frontend:
     docker:
@@ -118,9 +116,6 @@ jobs:
             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
             --tags project=udapeople
 
-      - destroy_environment:
-          stack_name: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-
       - run: 
           name: create frontend-stack
           command: |
@@ -130,9 +125,6 @@ jobs:
             --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
             --tags project=udapeople
             
-      - destroy_environment:
-          stack_name: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
-
       - run:
           name: Get public IP of previous EC2 for inventory file
           command: |
@@ -141,6 +133,8 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=${EC2_tagged}" "Name=instance-state-name,Values=running" \
             --output text >> ./.circleci/ansible/inventory.txt
+
+      - destroy_environment
 
       - run:
           name: Create workspace directory 
@@ -179,7 +173,8 @@ jobs:
           command: |
               cd .circleci/ansible
               ansible-playbook -i /workspace/inventory.txt configure-server.yml
-
+              
+      - destroy_environment
 workflows:
   default:
     jobs:
