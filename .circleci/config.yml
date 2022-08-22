@@ -172,10 +172,11 @@ jobs:
       - run:
           name: Config server
           command: |
+              export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
               ansible-playbook -i /workspace/inventory.txt configure-server.yml
               
-      - destroy_environment
+      # - destroy_environment
 workflows:
   default:
     jobs:
