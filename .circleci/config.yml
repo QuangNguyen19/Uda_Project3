@@ -146,8 +146,8 @@ jobs:
           name: Create workspace directory 
           command: |
             mkdir -p /workspace 
-            cp ./.circleci/ansible/inventory.txt /workspace/invetory.txt
-            cat  /workspace/invetory.txt
+            cp ./.circleci/ansible/inventory.txt /workspace/inventory.txt
+            cat  /workspace/inventory.txt
 
       - persist_to_workspace:
           root: /workspace
