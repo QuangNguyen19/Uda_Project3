@@ -6,6 +6,7 @@ commands:
           name: Destroy environment
           when: on_fail
           command: |
+            aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
   
@@ -220,7 +221,7 @@ jobs:
           command: |   
               if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt ; \
               then \
-                curl https://kvdb.io/WCvb5nVg21mwNyYW7LJp4n/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1' ; \
+                curl --insecure https://kvdb.io/WCvb5nVg21mwNyYW7LJp4n/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1' ; \
               fi
 
       - destroy_environment
