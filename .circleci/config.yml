@@ -1,5 +1,12 @@
 version: 2.1
 commands:
+  preconfig_for_ansible:
+    steps:
+      - run: 
+          command: |
+            export PATH=$PATH:~/.local/bin
+            export ANSIBLE_HOST_KEY_CHECKING=False
+
   destroy_environment:
     steps:
       - run:
@@ -185,12 +192,12 @@ jobs:
           command: |
             pip install awscli
             pip install --upgrade --user ansible
-      
+
+      - preconfig_for_ansible
+
       - run:
           name: Config server
           command: |
-              export PATH=$PATH:~/.local/bin
-              export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
               ansible-playbook -i /workspace/inventory.txt configure-server.yml
               
@@ -290,8 +297,17 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt install -y tar gzip ansible nodejs
+            apt install -y tar gzip curl
             pip install awscli
+            pip install --upgrade --user ansible
+      
+      - run: 
+          name: Install nodejs
+          command: | 
+            curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
+            sudo apt-get install -y nodejs
+
+      - preconfig_for_ansible  
 
       - run:
           name: Deploy backend
