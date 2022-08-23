@@ -296,7 +296,8 @@ jobs:
       
       - run: 
           name: Install nodejs
-          command: | 
+          command: |
+            apt install sudo -y 
             curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
             sudo apt-get install -y nodejs
 
