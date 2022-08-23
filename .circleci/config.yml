@@ -274,7 +274,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.9.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -283,15 +283,25 @@ jobs:
 
       - restore_cache:
           keys: [backend-build]
-
+      
       - run:
           name: Install dependencies
           command: |
             apt install -y tar gzip curl
-            apt install -y ansible
+
+      - run:
+          name: Install awscli
+          command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
+      - run:
+          name: Install ansible
+          command: |
+            apt-get update
+            apt-get install software-properties-common
+            apt-add-repository --yes --update ppa:ansible/ansible
+            apt-get install ansible
 
       - attach_workspace:
           at: /workspace
