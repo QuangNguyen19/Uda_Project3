@@ -158,7 +158,8 @@ jobs:
       - run:
           name: Create workspace directory 
           command: |
-            mkdir -p /workspace 
+            mkdir -p /workspace
+            chmod 777 /workspace
             cp ./.circleci/ansible/inventory.txt /workspace/inventory.txt
             cat  /workspace/inventory.txt
 
@@ -281,9 +282,6 @@ jobs:
           fingerprints: 
             - "46:55:b0:51:d8:5f:2a:a7:1f:09:28:e8:89:63:da:f5"
 
-      - attach_workspace:
-          at: /workspace
-
       - restore_cache:
           keys: [backend-build]
 
@@ -294,6 +292,9 @@ jobs:
             apt install -y tar gzip curl
             apt install -y awscli
             apt install -y ansible
+
+      - attach_workspace:
+          at: /workspace
 
       - run:
           name: Deploy backend
