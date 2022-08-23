@@ -1,12 +1,5 @@
 version: 2.1
 commands:
-  preconfig_for_ansible:
-    steps:
-      - run: 
-          command: |
-            export PATH=$PATH:~/.local/bin
-            export ANSIBLE_HOST_KEY_CHECKING=False
-
   destroy_environment:
     steps:
       - run:
@@ -193,11 +186,11 @@ jobs:
             pip install awscli
             pip install --upgrade --user ansible
 
-      - preconfig_for_ansible
-
       - run:
           name: Config server
           command: |
+              export PATH=$PATH:~/.local/bin
+              export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
               ansible-playbook -i /workspace/inventory.txt configure-server.yml
               
@@ -307,8 +300,6 @@ jobs:
             curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
             sudo apt-get install -y nodejs
 
-      - preconfig_for_ansible  
-
       - run:
           name: Deploy backend
           command: |
@@ -320,6 +311,8 @@ jobs:
               cd .circleci/ansible
               echo "Contents  of the inventory.txt file is -------"
               cat /workspace/inventory.txt
+              export PATH=$PATH:~/.local/bin
+              export ANSIBLE_HOST_KEY_CHECKING=False
               ansible-playbook -i /workspace/inventory.txt deploy-backend.yml
 
       - destroy_environment
