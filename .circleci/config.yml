@@ -274,7 +274,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.9.13
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - add_ssh_keys:
@@ -290,16 +290,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apt-get update -y
             apt install -y tar gzip curl
-            pip install awscli
-            pip install --upgrade --user ansible
-      
-      - run: 
-          name: Install nodejs
-          command: |
-            apt install sudo -y 
-            curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
-            sudo apt-get install -y nodejs
+            apt install -y awscli
+            apt install -y ansible
 
       - run:
           name: Deploy backend
@@ -312,8 +306,6 @@ jobs:
               cd .circleci/ansible
               echo "Contents  of the inventory.txt file is -------"
               cat /workspace/inventory.txt
-              export PATH=$PATH:~/.local/bin
-              export ANSIBLE_HOST_KEY_CHECKING=False
               ansible-playbook -i /workspace/inventory.txt deploy-backend.yml
 
       - destroy_environment
