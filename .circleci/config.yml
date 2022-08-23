@@ -288,7 +288,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt-get update -y
             apt install -y tar gzip curl
             apt install -y awscli
             apt install -y ansible
