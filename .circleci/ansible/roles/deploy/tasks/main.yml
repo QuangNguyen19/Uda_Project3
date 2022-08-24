@@ -31,4 +31,4 @@
   shell: |
     cd /home/ubuntu/backend
     npm install
-    pm2 start npm --name backend -- start
+    npm run start
