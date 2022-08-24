@@ -2,7 +2,7 @@
 - name: "install dependencies."
   become: true
   apt:
-    name: ["nodejs","npm","unzip","zipinfo"]
+    name: ["nodejs","npm","unzip"]
     state: present
     update_cache: yes
 
