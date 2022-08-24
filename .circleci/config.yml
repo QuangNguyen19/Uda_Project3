@@ -344,11 +344,10 @@ jobs:
       - run:
           name: Smoke test backend
           command: |
-            export BACKEND_IP=$(tail -1 /tmp/.circleci/ansible/inventory.txt)
+            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl --insecure "${API_URL}/api/status" | grep "ok"
-  
             then
                 return 0
             else
