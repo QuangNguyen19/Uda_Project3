@@ -3,7 +3,7 @@
   become: true
   apt:
     name: ["nodejs","npm","unzip"]
-    state: present
+    state: latest
     update_cache: yes
 
 - name: Install pm2
@@ -20,11 +20,15 @@
     path: /home/ubuntu/backend
     state: directory
 
-- name: Extract archive
-  become: true
-  unarchive:
+- name: Copy backend dist files web server
+  copy:
     src: /tmp/artifact.tar.gz
-    dest: /home/ubuntu/backend
+    dest: /home/ubuntu/backend/artifact.tar.gz
+
+- name: Extract Backend
+  shell: |
+    cd /home/ubuntu/backend
+    tar xvzf artifact.tar.gz -C .
 
 - name: Build
   become: true
