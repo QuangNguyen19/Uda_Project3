@@ -309,6 +309,7 @@ jobs:
               npm run build
               cd ..
               tar -C backend -czvf artifact.tar.gz .
+              export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
               ansible-playbook -i ~/workspace/inventory.txt deploy-backend.yml
 
