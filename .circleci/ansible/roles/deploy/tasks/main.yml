@@ -26,11 +26,23 @@
     src: /tmp/artifact.tar.gz
     dest: /home/ubuntu/backend
 
-- name: run the backend
+- name: Install packages
   become: true
   shell: |
     cd /home/ubuntu/backend
-    npm install 
-    pm2 stop default
-    pm2 start npm -- start
+    npm install
+
+- name: Install packages
+  become: true
+  shell: |
+    cd /home/ubuntu/backend
+    pm2 start npm --name backend -- start
+
+- name: Test
+  become: true
+  shell: |
     pm2 ls
+  register: test
+
+- debug:
+    var: test
