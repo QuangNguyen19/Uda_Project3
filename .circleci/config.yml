@@ -333,8 +333,8 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      - attach_workspace:
-          at: ~/workspace
+      # - attach_workspace:
+      #     at: ~/workspace
 
       - run:
           name: Install dependencies
@@ -344,7 +344,7 @@ jobs:
       - run:
           name: Smoke test backend
           command: |
-            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)
+            
             export API_URL="http://34.207.187.191:3030:3030/api/status"
             echo "${API_URL}"
             if curl --insecure "${API_URL}" | grep "ok"
