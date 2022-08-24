@@ -158,12 +158,12 @@ jobs:
       - run:
           name: Create workspace directory 
           command: |
-            mkdir -p /workspace
-            cp ./.circleci/ansible/inventory.txt /workspace/inventory.txt
-            cat /workspace/inventory.txt
+            mkdir -p ~/workspace
+            cp ./.circleci/ansible/inventory.txt ~/workspace/inventory.txt
+            cat ~/workspace/inventory.txt
 
       - persist_to_workspace:
-          root: /workspace
+          root: ~/workspace
           paths: 
             - inventory.txt
 
@@ -178,7 +178,7 @@ jobs:
             - "46:55:b0:51:d8:5f:2a:a7:1f:09:28:e8:89:63:da:f5"
 
       - attach_workspace:
-          at: /workspace
+          at: ~/workspace
 
       - run:
           name: Install dependencies
@@ -192,7 +192,7 @@ jobs:
               export PATH=$PATH:~/.local/bin
               export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
-              ansible-playbook -i /workspace/inventory.txt configure-server.yml
+              ansible-playbook -i ~/workspace/inventory.txt configure-server.yml
               
       - destroy_environment
   
@@ -240,7 +240,7 @@ jobs:
           command: |
             yum install -y tar gzip                         
       - attach_workspace:
-          at: /workspace 
+          at: ~/workspace 
 
       - run:
           name: Install dependencies
@@ -252,7 +252,7 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=$(tail -1 /workspace/inventory.txt)
+            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
@@ -282,7 +282,7 @@ jobs:
             - "46:55:b0:51:d8:5f:2a:a7:1f:09:28:e8:89:63:da:f5"
 
       - attach_workspace:
-          at: /workspace
+          at: ~/workspace
 
       - restore_cache:
           keys: [backend-build]
@@ -310,7 +310,7 @@ jobs:
               cd ..
               tar -C backend -czvf artifact.tar.gz .
               cd .circleci/ansible
-              ansible-playbook -i /workspace/inventory.txt deploy-backend.yml
+              ansible-playbook -i ~/workspace/inventory.txt deploy-backend.yml
 
       - destroy_environment
 
@@ -322,7 +322,7 @@ jobs:
       - image: alpine:latest
     steps:
       - attach_workspace:
-          at: /workspace
+          at: ~/workspace
 
       - run:
           name: Install dependencies
@@ -332,7 +332,7 @@ jobs:
       - run:
           name: Smoke test backend
           command: |
-            export BACKEND_IP=$(tail -1 /workspace/inventory.txt)
+            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -361,7 +361,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-          at: /workspace
+          at: ~/workspace
 
       - run:
           name: Install dependencies
@@ -373,10 +373,10 @@ jobs:
           command: |
             aws cloudformation \
             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text > /workspace/OldWorkflowID.txt
+            --no-paginate --output text > ~/workspace/OldWorkflowID.txt
       
       - persist_to_workspace:
-          root: /workspace
+          root: ~/workspace
           paths:
             - OldWorkflowID.txt
 
@@ -395,7 +395,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-          at: /workspace
+          at: ~/workspace
 
       - run:
           name: Install dependencies
@@ -405,7 +405,7 @@ jobs:
       - run: 
           name: Clear and delete old s3 bucket and old cloudformation stack
           command: |
-            export OldWorkflowID=$(tail -1 /workspace/OldWorkflowID.txt)
+            export OldWorkflowID=$(tail -1 ~/workspace/OldWorkflowID.txt)
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
             then
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
