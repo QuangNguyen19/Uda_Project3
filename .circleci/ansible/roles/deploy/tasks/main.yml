@@ -14,6 +14,10 @@
     production: yes
     state: present
 
+- name: Make backend directory
+  become: true
+  command: mkdir -p /home/ubuntu/backend
+
 - name: Extract archive
   unarchive:
     src: /tmp/artifact.tar.gz
