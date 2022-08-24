@@ -374,20 +374,20 @@ jobs:
 
       - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-          
+
   cloudfront-update:
     docker:
       - image: amazon/aws-cli
     steps:
       - checkout
 
-      - attach_workspace:
-          at: ~/workspace
-
       - run:
-          name: Install dependencies
+          name: install tar gzip
           command: |
-            yum install -y tar gzip 
+            yum install -y tar gzip
+
+      - attach_workspace:
+          at: ~/workspace      
       
       - run:
           name: Fetch the Old workflow ID
@@ -415,13 +415,13 @@ jobs:
     steps:
       - checkout
 
-      - attach_workspace:
-          at: ~/workspace
-
       - run:
           name: Install dependencies
           command: |
             yum install -y tar gzip 
+            
+      - attach_workspace:
+          at: ~/workspace
       
       - run: 
           name: Clear and delete old s3 bucket and old cloudformation stack
