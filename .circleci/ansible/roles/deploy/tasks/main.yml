@@ -17,7 +17,7 @@
 - name: Create backend directory
   become: true
   file:
-    path: home/ubuntu/backend
+    path: /home/ubuntu/backend
     state: directory
 
 - name: Extract archive
