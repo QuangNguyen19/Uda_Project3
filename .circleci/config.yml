@@ -301,6 +301,8 @@ jobs:
             sudo apt-get install software-properties-common
             sudo apt-get install ansible
 
+      - run: mkdir -p /tmp
+
       - run:
           name: Deploy backend
           command: |
@@ -308,7 +310,7 @@ jobs:
               npm i
               npm run build
               cd ..
-              tar -C backend -czvf artifact.tar.gz .
+              tar -C backend -czvf /tmp/artifact.tar.gz .
               export ANSIBLE_HOST_KEY_CHECKING=False
               cd .circleci/ansible
               ansible-playbook -i ~/workspace/inventory.txt deploy-backend.yml

@@ -16,8 +16,8 @@
 
 - name: Extract archive
   unarchive:
-    src: artifact.tar.gz
-    dest: /home/ubuntu
+    src: /tmp/artifact.tar.gz
+    dest: /home/ubuntu/backend
 
 - name: Executing node
   become: true
