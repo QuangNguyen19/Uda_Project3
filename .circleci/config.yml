@@ -344,7 +344,7 @@ jobs:
       - run:
           name: Smoke test backend
           command: |
-            export API_URL="http://${tail -1 ~/workspace/inventory.txt}/api/status"
+            export API_URL="http://$(tail -1 ~/workspace/inventory.txt)/api/status"
             echo "${API_URL}"
             if curl --insecure ${API_URL} | grep "ok"
             then
