@@ -345,9 +345,9 @@ jobs:
           name: Smoke test backend
           command: |
             
-            export API_URL="http://34.207.187.191:3030:3030/api/status"
+            export API_URL="http://34.207.187.191:3030/api/status"
             echo "${API_URL}"
-            if curl --insecure "${API_URL}" | grep "ok"
+            if curl --insecure ${API_URL} | grep "ok"
             then
                 return 0
             else
