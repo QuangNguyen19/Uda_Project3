@@ -319,7 +319,7 @@ jobs:
   
   smoke-test:
     docker:
-      - image: alpine
+      - image: alpine:latest
     steps:
       - attach_workspace:
           at: ./workspace
@@ -327,7 +327,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt install -y tar gzip curl
+            apk add -y tar gzip curl
 
       - run:
           name: Smoke test backend
