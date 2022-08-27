@@ -344,7 +344,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)nbnnmnn
+            export BACKEND_IP=$(tail -1 ~/workspace/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl --insecure "${API_URL}/api/status" | grep "ok"
