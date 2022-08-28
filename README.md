@@ -1,6 +1,6 @@
 We are archiving this repository because we do not want learners to push personal development to the current repository. If you have any issues or suggestions to make, feel free to
 
-- Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues.
+- Utilize the https://knowledge.udacity.com/ forum to seek help on content-specific issues..
 - [Submit a support ticket](https://udacity.zendesk.com/hc/en-us/requests/new) along with the link to your forked repository..
 - If you are an enterprise learner, please [Submit a support ticket here](https://udacityenterprise.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000279131)
 
@@ -34,6 +34,7 @@ For your submission, please submit the following:
   3. Public URL for your CloudFront distribution (aka, your blue production front-end) [URL03]
   4. Public URLs to deployed application back-end in EC2 [URL04]
   5. Public URL to your Prometheus Server [URL05]
+
 - Your screenshots in JPG or PNG format, named using the screenshot number listed in the instructions. These screenshots should be included in your code repository in the root folder.
 
   1. Job failed because of compile errors. [SCREENSHOT01]
@@ -48,6 +49,7 @@ For your submission, please submit the following:
   10. Only deploy on pushed to `master` branch. [SCREENSHOT10]
   11. Provide a screenshot of a graph of your EC2 instance including available memory, available disk space, and CPU usage. [SCREENSHOT11]
   12. Provide a screenshot of an alert that was sent by Prometheus. [SCREENSHOT12]
+
 - Your presentation should be in PDF format named "presentation.pdf" and should be included in your code repository root folder.
 
 Before you submit your project, please check your work against the project rubric. If you haven’t satisfied each criterion in the rubric, then revise your work so that you have met all the requirements.
